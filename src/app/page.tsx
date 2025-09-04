@@ -5,7 +5,8 @@ import AppScreenshots from '@/components/AppScreenshots'
 import Pricing from '@/components/Pricing'
 import News from '@/components/News'
 import Footer from '@/components/Footer'
-import NewsletterSignup from '@/components/ui/NewsletterSignup';
+import NewsletterSignup from '@/components/ui/NewsletterSignup'
+import FloatingTranslate from '@/components/FloatingTranslate'
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <NewsletterSignup />
       </main>
       <Footer />
+      <FloatingTranslate />
     </>
   )
 }
