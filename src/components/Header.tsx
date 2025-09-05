@@ -4,16 +4,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
+import LanguageSelector from './LanguageSelector'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { t } = useLanguage()
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#features', label: 'Features' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#news', label: 'News' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#home', label: t('nav.home') },
+    { href: '#features', label: t('nav.features') },
+    { href: '#pricing', label: t('nav.pricing') },
+    { href: '#news', label: t('nav.news') },
+    { href: '#contact', label: t('nav.contact') },
   ]
 
   return (
@@ -23,9 +26,9 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-24 h-12 rounded-lg flex items-center justify-center">
-              <Image 
-                src="/Lango_Logo.svg" 
-                alt="Lango"
+              <Image
+                src="/Lango_Logo.svg"
+                alt={t('app.name')}
                 width={120}
                 height={48}
                 priority
@@ -46,8 +49,9 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center">
+          {/* Language Selector & Mobile Menu Button */}
+          <div className="flex items-center space-x-2">
+            <LanguageSelector />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-gray-700 hover:text-purple-600 transition-colors duration-300"

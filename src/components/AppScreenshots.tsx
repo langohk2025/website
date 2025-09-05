@@ -5,8 +5,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AppScreenshots() {
+  const { t } = useLanguage()
   const [currentSlide, setCurrentSlide] = useState(0)
   
   const screenshots = [
@@ -41,7 +43,7 @@ export default function AppScreenshots() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-8">Watch a Quick Tutorial</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-8">{t('tutorial.title')}</h2>
           
           <div className="relative w-full max-w-4xl mx-auto">
             <div
@@ -78,8 +80,8 @@ export default function AppScreenshots() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-8">App ScreenShots</h2>
-          <p className="text-xl text-gray-600 mb-12">Let`&apos;`s check out our awesome app features.</p>
+          <h2 className="text-4xl font-bold text-gray-800 mb-8">{t('screenshots.title')}</h2>
+          <p className="text-xl text-gray-600 mb-12">{t('screenshots.subtitle')}</p>
 
           {/* Screenshot Carousel */}
           <div className="relative max-w-6xl mx-auto">
@@ -153,15 +155,15 @@ export default function AppScreenshots() {
           className="text-center"
         >
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-12 rounded-3xl max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold mb-6">LangoVerse Free Flow AI Speaking Experience</h2>
+            <h2 className="text-4xl font-bold mb-6">{t('langoverse.title')}</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Explore a virtual London Town and practice speaking freely with our AI robot.
+              {t('langoverse.subtitle')}
             </p>
             <Button 
               size="lg" 
               className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             >
-              Discover
+              {t('langoverse.cta')}
             </Button>
           </div>
         </motion.div>

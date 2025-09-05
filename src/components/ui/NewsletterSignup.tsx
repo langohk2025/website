@@ -2,8 +2,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const NewsletterSignup: React.FC = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -23,12 +25,12 @@ const NewsletterSignup: React.FC = () => {
     (window as any)[callbackName] = (data: any) => {
       if (data.result === 'success') {
         setStatus('success');
-        setMessage('Thank you for subscribing!');
+        setMessage(t('newsletter.success'));
         setEmail('');
       } else {
         setStatus('error');
         // Clean up HTML tags from Mailchimp error messages
-        const cleanMessage = data.msg ? data.msg.replace(/<[^>]*>/g, '') : 'Something went wrong';
+        const cleanMessage = data.msg ? data.msg.replace(/<[^>]*>/g, '') : t('newsletter.error');
         setMessage(cleanMessage);
       }
       
@@ -40,7 +42,7 @@ const NewsletterSignup: React.FC = () => {
     // Handle script loading errors
     script.onerror = () => {
       setStatus('error');
-      setMessage('Network error. Please try again.');
+      setMessage(t('newsletter.networkError'));
       document.head.removeChild(script);
       delete (window as any)[callbackName];
     };
@@ -55,15 +57,15 @@ const NewsletterSignup: React.FC = () => {
         <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm border border-purple-300">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <h2 className="text-4xl font-bold mb-6 text-purple-600">
-            Subscribe to our newsletter
+            {t('newsletter.title')}
             </h2>
             <p className="text-xl mb-4 max-w-2xl mx-auto">
-            Get the latest updates delivered directly to your inbox.
+            {t('newsletter.description')}
             </p>
             
             <input
             type="email"
-            placeholder="Enter your email address"
+            placeholder={t('newsletter.placeholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -75,7 +77,7 @@ const NewsletterSignup: React.FC = () => {
             disabled={status === 'loading'}
             className="bg-gradient-to-r from-purple-600 rounded-md to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
             >
-            {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+            {status === 'loading' ? t('newsletter.subscribing') : t('newsletter.subscribe')}
             </button>
         </form>
         

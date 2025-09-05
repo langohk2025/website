@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, Youtube } from 'lucide-react'
 import Image from "next/image"
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLanguage()
+  
   const socialLinks = [
     { icon: Facebook, href: '#', label: 'Facebook' },
     { icon: Twitter, href: '#', label: 'Twitter' },
@@ -27,8 +30,7 @@ export default function Footer() {
                 </div>
             </Link>
             <p className="text-gray-300 mb-6 max-w-md">
-              Practice English speaking with our AI robot. Experience gamified learning with role-play exercises, 
-              immediate grading, and immersive conversational scenarios.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
@@ -46,26 +48,26 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6">{t('footer.quick_links')}</h3>
             <ul className="space-y-3">
               <li>
                 <Link href="#home" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Home
+                  {t('nav.home')}
                 </Link>
               </li>
               <li>
                 <Link href="#features" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Features
+                  {t('nav.features')}
                 </Link>
               </li>
               <li>
                 <Link href="#pricing" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Pricing
+                  {t('nav.pricing')}
                 </Link>
               </li>
               <li>
                 <Link href="#news" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  News
+                  {t('nav.news')}
                 </Link>
               </li>
             </ul>
@@ -73,12 +75,12 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact</h3>
+            <h3 className="text-lg font-semibold mb-6">{t('nav.contact')}</h3>
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Phone className="w-5 h-5 text-purple-400 mt-1 mr-3 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">Whatsapp:</p>
+                  <p className="text-gray-300">{t('footer.whatsapp')}</p>
                   <a href="https://wa.me/85293541948" className="text-white hover:text-purple-400 transition-colors duration-300">
                     +852 9354 1948
                   </a>
@@ -87,7 +89,7 @@ export default function Footer() {
               <li className="flex items-start">
                 <Mail className="w-5 h-5 text-purple-400 mt-1 mr-3 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">Email:</p>
+                  <p className="text-gray-300">{t('footer.email')}</p>
                   <a href="mailto:info@lango.ai" className="text-white hover:text-purple-400 transition-colors duration-300">
                     info@lango.ai
                   </a>
@@ -96,10 +98,9 @@ export default function Footer() {
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 text-purple-400 mt-1 mr-3 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">Address:</p>
+                  <p className="text-gray-300">{t('footer.address')}</p>
                   <p className="text-white">
-                    1703, Lemmi Center, Hoi Yuen Road,<br />
-                    Kwun Tong, Kowloon, Hong Kong
+                    {t('footer.address_full')}
                   </p>
                 </div>
               </li>
@@ -111,14 +112,14 @@ export default function Footer() {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 Lango Innovation Limited. All rights reserved.
+              {t('footer.copyright')}
             </p>
             <div className="flex space-x-6">
               <Link href="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
-                Privacy Policy
+                {t('footer.privacy')}
               </Link>
               <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
-                Terms of Service
+                {t('footer.terms')}
               </Link>
             </div>
           </div>

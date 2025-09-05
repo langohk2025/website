@@ -3,61 +3,63 @@
 import { motion } from 'framer-motion'
 import { Calendar, User, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function News() {
+  const { t } = useLanguage()
   const newsItems = [
     {
       id: 1,
-      title: 'ABGPS Cup 2025 - Hong Kong Kindergarten Online English Conversation Competition Concludes Successfully',
-      excerpt: 'The ABGPS Cup 2025 Hong Kong Kindergarten Online English Conversation Competition has successfully concluded! The competition offered young learners...',
+      titleKey: 'news.item1.title',
+      excerptKey: 'news.item1.excerpt',
       date: 'December 7, 2024',
       author: 'nexsoftech',
-      category: 'Competition',
+      categoryKey: 'news.category.competition',
       imgsrc:'/news-1.jpg'
     },
     {
       id: 2,
-      title: 'Lango Presents at Ricoh: Exploring Global Opportunities',
-      excerpt: 'We are excited to share that Lango was recently invited to present at Ricoh, a global leader known for its innovative solutions...',
+      titleKey: 'news.item2.title',
+      excerptKey: 'news.item2.excerpt',
       date: 'May 15, 2025',
       author: 'nexsoftech',
-      category: 'Partnership',
+      categoryKey: 'news.category.partnership',
       imgsrc:'/news-2.jpg'
     },
     {
       id: 3,
-      title: 'Lango Takes a Bold Step in the Middle East',
-      excerpt: 'The Dubai Assembly for AI 2025 was an incredible experience that opened new doors for "Langoverse". During the event, multiple countries...',
+      titleKey: 'news.item3.title',
+      excerptKey: 'news.item3.excerpt',
       date: 'April 25, 2025',
       author: 'nexsoftech',
-      category: 'Expansion',
+      categoryKey: 'news.category.expansion',
       imgsrc:'/news-3.jpg'
     },
     {
       id: 4,
-      title: 'Lango School: Bringing Native-Like English Learning to ABGPS',
-      excerpt: 'Aldrich Bay Government Primary School (ABGPS) is taking English learning to the next level with Lango School! Featured in Sing Tao Headline...',
+      titleKey: 'news.item4.title',
+      excerptKey: 'news.item4.excerpt',
       date: 'April 3, 2025',
       author: 'nexsoftech',
-      category: 'Education',
+      categoryKey: 'news.category.education',
       imgsrc:'/news-4.jpg'
     },
     {
       id: 5,
-      title: 'LTE HK Dec 2024',
-      excerpt: 'The LTE HK in December 2024 is poised to be a premier event focusing on the latest advancements in telecommunications and mobile technology...',
+      titleKey: 'news.item5.title',
+      excerptKey: 'news.item5.excerpt',
       date: 'December 20, 2024',
       author: 'nexsoftech',
-      category: 'Event',
+      categoryKey: 'news.category.event',
       imgsrc:'/news-5.jpg'
     },
     {
       id: 6,
-      title: 'Dubai Expo Apr 2025',
-      excerpt: 'Lango Takes a Bold Step in the Middle East The Dubai Assembly for AI 2025 was an incredible experience that opened new doors for our platform...',
+      titleKey: 'news.item6.title',
+      excerptKey: 'news.item6.excerpt',
       date: 'April 15, 2025',
       author: 'nexsoftech',
-      category: 'Exhibition',
+      categoryKey: 'news.category.exhibition',
       imgsrc:'/news-6.jpg'
     },
   ]
@@ -72,9 +74,9 @@ export default function News() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-6">Our Latest News</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-6">{t('news.our_latest')}</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Check out our latest news or media coverage
+            {t('news.check_news')}
           </p>
         </motion.div>
 
@@ -99,7 +101,7 @@ export default function News() {
                 <div className="absolute inset-0 bg-black/20"></div>
                 <div className="absolute top-4 left-4">
                   <span className="bg-white/90 text-purple-600 px-3 py-1 rounded-full text-sm font-medium">
-                    {item.category}
+                    {t(item.categoryKey)}
                   </span>
                   {/* <div className="relative w-full h-96">
                   <Image src={item.imgsrc} width={1000} height={500}/>
@@ -118,18 +120,18 @@ export default function News() {
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors duration-300 line-clamp-2">
-                  {item.title}
+                  {t(item.titleKey)}
                 </h3>
 
                 <p className="text-gray-600 mb-4 line-clamp-3">
-                  {item.excerpt}
+                  {t(item.excerptKey)}
                 </p>
 
                 <Button 
                   variant="ghost" 
                   className="text-purple-600 hover:text-purple-700 hover:bg-purple-50 p-0 h-auto group/btn"
                 >
-                  Read More
+                  {t('news.read_more')}
                   <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
                 </Button>
               </div>
@@ -150,7 +152,7 @@ export default function News() {
             variant="outline"
             className="border-purple-300 text-purple-600 hover:bg-purple-50 px-8 py-4"
           >
-            Load More News
+            {t('news.load_more')}
           </Button>
         </motion.div>
       </div>

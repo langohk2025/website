@@ -6,66 +6,69 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAppStore, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 
 export default function Features() {
+  const { t } = useLanguage()
+  
   const features = [
     {
       icon: Bot,
-      title: 'Speak with Robot',
-      description: 'Practice English speaking with our AI robot.',
+      title: t('features.speak_robot'),
+      description: t('features.speak_robot_desc'),
     },
     {
       icon: MessageCircle,
-      title: 'Role-play Exercise',
-      description: 'To provide an immersive conversational experience in various scenarios',
+      title: t('features.roleplay'),
+      description: t('features.roleplay_desc'),
     },
     {
       icon: Trophy,
-      title: 'Immediate Grading',
-      description: 'After each exercise user will receive immediate grading',
+      title: t('features.grading'),
+      description: t('features.grading_desc'),
     },
     {
       icon: Target,
-      title: 'To Improve',
-      description: 'A list of poorly pronounced words will be recorded for improvement purpose',
+      title: t('features.improve'),
+      description: t('features.improve_desc'),
     },
     {
       icon: BarChart3,
-      title: 'Stay Motivated',
-      description: 'Gamified experience to encourage students to participate.',
+      title: t('features.motivated'),
+      description: t('features.motivated_desc'),
     },
     {
       icon: Users,
-      title: 'Progress Tracking',
-      description: 'Teachers will be able to view progress of all students.',
+      title: t('features.progress'),
+      description: t('features.progress_desc'),
     },
   ]
 
   const appFeatures = [
     {
       icon: BookOpen,
-      title: 'Gamified Experience',
-      description: 'Learning should be fun. Our team of experts blends education with game design to make it engaging.',
+      title: t('features.gamified_exp'),
+      description: t('features.gamified_exp_desc'),
     },
     {
       icon: MessageCircle,
-      title: 'Role-play Immersive Speaking Experience',
-      description: 'Experience real-life scenarios that help you build the speaking skills you\'ll actually use.',
+      title: t('features.roleplay_immersive'),
+      description: t('features.roleplay_immersive_desc'),
     },
     {
       icon: Smartphone,
-      title: 'Be Confident at Speaking',
-      description: 'Gain confidence by having successful conversations with our AI — a key step to speaking any new language fluently.',
+      title: t('features.confident'),
+      description: t('features.confident_desc'),
     },
   ]
 
   const scenarios = [
-    { title: 'At home', emoji: '🏠' },
-    { title: 'At the park', emoji: '🌳' },
-    { title: 'At the Big Ben in London', emoji: '🏛️' },
-    { title: 'At the Science Museum', emoji: '🔬' },
-    { title: 'At Christmas dinner', emoji: '🎄' },
+    { title: t('features.at_home'), emoji: '🏠' },
+    { title: t('features.at_park'), emoji: '🌳' },
+    { title: t('features.at_bigben'), emoji: '🏛️' },
+    { title: t('features.at_museum'), emoji: '🔬' },
+    { title: t('features.at_christmas'), emoji: '🎄' },
   ]
 
   return (
@@ -79,9 +82,9 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Awesome Apps Features</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('features.awesome_title')}</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Learning with Lango is fun and interactive. Check out what makes our app awesome:
+            {t('features.awesome_subtitle')}
           </p>
         </motion.div>
 
@@ -111,7 +114,7 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">How does this App Work?</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('features.how_works')}</h2>
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-20">
@@ -149,7 +152,7 @@ export default function Features() {
                 size="lg" 
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg">
                 <FontAwesomeIcon icon={faAppStore} />
-                Available on App Store
+                {t('features.app_store')}
             </Button>
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.lango.schoolapp"
@@ -160,7 +163,7 @@ export default function Features() {
                 variant="outline" 
                 className="border-purple-300 text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg">
                 <FontAwesomeIcon icon={faGooglePlay} />
-                Available on Google Play
+                {t('features.google_play')}
             </Button>
             </a>
         </motion.div>
@@ -173,13 +176,12 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white p-12 rounded-3xl"
         >
-          <h2 className="text-4xl font-bold mb-6">Speak to Our AI Robot</h2>
+          <h2 className="text-4xl font-bold mb-6">{t('features.speak_ai')}</h2>
           <p className="text-xl mb-4 max-w-2xl mx-auto">
-            The best way to learn a language is to actually speak it.
+            {t('features.speak_ai_subtitle')}
           </p>
           <p className="text-lg mb-6 max-w-2xl mx-auto">
-            Chat with our AI robot for free! With every session, you will feel more confident, positive and uplifted. 
-            And soon you will be able to speak fluent English without hesitation.
+            {t('features.speak_ai_desc')}
           </p>
         </motion.div>
 
@@ -191,9 +193,9 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-6">Learning English doesn`&apos;`t have to be boring</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-6">{t('features.learning_fun')}</h2>
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            We provide fun, gamified speaking activities that encourage your English communication skills
+            {t('features.learning_fun_desc')}
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">

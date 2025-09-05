@@ -4,8 +4,11 @@ import { motion } from 'framer-motion'
 import { Play, Download, Users, Heart, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Hero() {
+  const { t } = useLanguage()
+  
   const stats = [
     { label: 'Users', value: '30,000', icon: Users },
     { label: 'Downloads', value: '100,000+', icon: Download },
@@ -25,14 +28,13 @@ export default function Hero() {
             className="text-center lg:text-left"
           >
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight">
-              Welcome to{' '}
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Lango
+                {t('hero.title')}
               </span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-lg">
-              Looking for an efficient way to practice English speaking? You`&apos;`re in the right place.
+              {t('hero.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -42,7 +44,7 @@ export default function Hero() {
                     className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
                 >
                     <Download className="w-5 h-5 mr-2" />
-                    Download App
+                    {t('hero.cta')}
                 </Button>
               </a>
 
