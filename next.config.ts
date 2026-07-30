@@ -3,7 +3,7 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   images: {
-    domains: ['lango.ai'],
+    domains: ['lango.ai', 'cdn.sanity.io'],
     unoptimized: true
     
   },

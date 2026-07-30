@@ -1,0 +1,37 @@
+name: Sync LinkedIn News
+
+on:
+  schedule:
+    # Once daily at 01:00 UTC (09:00 HKT)
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync LinkedIn posts → Sanity
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          NEXT_PUBLIC_SANITY_API_VERSION: '2025-01-01'
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          LINKEDIN_COMPANY_SLUG: lango-language
+          LINKEDIN_SYNC_PUBLISH: 'true'
+          LINKEDIN_SYNC_MAX: '10'
+          # Optional but recommended: rebuild static site after new posts
+          CLOUDFLARE_PAGES_DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_HOOK_URL }}
+        run: npm run sanity:sync-linkedin

@@ -1,0 +1,7 @@
+# Copy to `.dev.vars` for local `wrangler pages dev` (not committed).
+# Variable names must match Cloudflare Pages → Settings → Environment variables.
+
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+ADMIN_PASSWORD=change-me-to-a-strong-password
+CONTACT_EMAIL_TO=info@lango.ai
+CONTACT_EMAIL_FROM=Lango Website <noreply@lango.ai>

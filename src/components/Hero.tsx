@@ -1,108 +1,77 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Play, Download, Users, Heart, Star } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { PageContainer, Section } from '@/components/ui/section'
+import { PressableLink, Reveal } from '@/components/ui/motion'
+import { H1Gradient, H1Sub, Label2, Label4, P1 } from '@/components/ui/typography'
 
 export default function Hero() {
   const { t } = useLanguage()
-  
-  const stats = [
-    { label: 'Users', value: '30,000', icon: Users },
-    { label: 'Downloads', value: '100,000+', icon: Download },
-    { label: 'Likes', value: '100,000+', icon: Heart },
-    { label: '5 Star Rating', value: '8089', icon: Star },
-  ]
 
   return (
-    <section id="home" className="pt-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
-          >
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                {t('hero.title')}
-              </span>
-            </h1>
-            
-            <p className="text-xl text-gray-600 mb-8 max-w-lg">
-              {t('hero.subtitle')}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="#downloadApp">
-                <Button 
-                    size="lg" 
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
-                >
-                    <Download className="w-5 h-5 mr-2" />
-                    {t('hero.cta')}
-                </Button>
-              </a>
-
-              <a href="#tutorial">
-                <Button 
-                    size="lg" 
-                    variant="outline" 
-                    className="border-purple-300 text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg"
-                >
-                    <Play className="w-5 h-5 mr-2" />
-                    About Lango
-                </Button>
-              </a>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="flex items-center justify-center mb-2">
-                    <stat.icon className="w-6 h-6 text-purple-600 mr-2" />
-                    <span className="text-2xl font-bold text-gray-800">{stat.value}</span>
-                  </div>
-                  <p className="text-sm text-gray-600">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          <Image src="/hero1.png" width={986} height={776} alt="Welcome to Lango" />
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            {/* <div className="relative w-full h-96 lg:h-[500px] float-animation">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-500 rounded-3xl transform rotate-3 opacity-20"></div>
-              <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl p-8 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <span className="text-white text-4xl font-bold">🤖</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">AI Speaking Robot</h3>
-                  <p className="text-gray-600">Practice with our intelligent AI companion</p>
+    <Section id="home" className="bg-bg-500 pb-12 pt-4 lg:pb-24 lg:pt-10">
+      <PageContainer>
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-[49px]">
+          <div className="flex w-full flex-1 flex-col items-center gap-6 text-center lg:items-start lg:gap-8 lg:text-left">
+            <Reveal>
+              <div className="flex flex-col gap-4 lg:gap-5">
+                <div className="flex flex-col gap-1 lg:gap-0">
+                  <H1Gradient
+                    as="h1"
+                    className="text-[38px] leading-[1.2] lg:text-[clamp(2.5rem,6vw,4.1875rem)] lg:leading-[1.5]"
+                  >
+                    {t('home.hero.line1')}
+                  </H1Gradient>
+                  <H1Sub
+                    as="span"
+                    className="text-[21px] leading-[1.2] lg:text-[clamp(1.75rem,3.5vw,2.375rem)] lg:leading-[1.5]"
+                  >
+                    {t('home.hero.line2')}
+                  </H1Sub>
                 </div>
+                <P1 className="max-w-xl text-base lg:pl-[10px] lg:text-[clamp(1rem,1.5vw,1.3125rem)]">
+                  {t('home.hero.subtitle')}
+                </P1>
               </div>
-            </div> */}
-          </motion.div>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div className="flex flex-wrap items-center justify-center gap-5 lg:justify-start">
+                <PressableLink
+                  href="#contact"
+                  variant="primary"
+                  className="px-[70px] py-[18px] lg:px-[52px] lg:py-[13px]"
+                >
+                  <Label2 className="whitespace-nowrap text-bg-100">{t('nav.book_demo')}</Label2>
+                </PressableLink>
+                <PressableLink href="#products" variant="secondary" className="hidden sm:inline-flex">
+                  <Label4 className="whitespace-nowrap text-[#4f0b52]">
+                    {t('home.hero.explore')}
+                  </Label4>
+                </PressableLink>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.12} direction="scale" className="w-full shrink-0 lg:w-[484px]">
+            <div className="relative mx-auto aspect-[330/412] w-full max-w-[330px] lg:aspect-[484/605] lg:max-w-[484px]">
+              <div
+                aria-hidden
+                className="absolute left-0 top-0 h-[92%] w-[99%] rounded-b-[163px] bg-gradient-to-b from-bg-500 to-white lg:rounded-b-[240px]"
+              />
+              <Image
+                src="/hero-figma.png"
+                alt={t('home.hero.image_alt')}
+                fill
+                sizes="(max-width: 1024px) 330px, 484px"
+                className="object-contain object-bottom"
+                priority
+              />
+            </div>
+          </Reveal>
         </div>
-      </div>
-    </section>
+      </PageContainer>
+    </Section>
   )
 }
-

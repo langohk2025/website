@@ -96,28 +96,38 @@ export default function AppScreenshots() {
               </button>
 
               {/* Screenshot Display */}
-              <div className="flex space-x-4 overflow-hidden px-16">
-                {screenshots.map((screenshot, index) => (
-                  <motion.div
-                    key={screenshot.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ 
-                      opacity: index === currentSlide ? 1 : 0.6,
-                      scale: index === currentSlide ? 1 : 0.8,
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className={`flex-shrink-0 w-64 h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl p-6 shadow-lg ${
-                      index === currentSlide ? 'ring-4 ring-purple-300' : ''
-                    }`}
-                  >
-                    <div className="w-full h-full bg-white rounded-2xl shadow-inner p-4 flex flex-col items-center justify-center">
-                      <div className="flex items-center justify-center">
-                        <Image src={`/app-screenshot-${index+1}.png`} alt="App features screenshots"
-                            width={300} height={600} />
+              <div className="relative overflow-hidden px-16 w-full">
+                <motion.div 
+                  className="flex space-x-4"
+                  animate={{ 
+                    x: `calc(-${currentSlide * (256 + 16)}px + 50% - 128px)` 
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                  {screenshots.map((screenshot, index) => (
+                    <motion.div
+                      key={screenshot.id}
+                      animate={{ 
+                        opacity: index === currentSlide ? 1 : 0.6,
+                        scale: index === currentSlide ? 1 : 0.8,
+                      }}
+                      transition={{ duration: 0.5 }}
+                      className="flex-shrink-0 w-64 bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl p-3 shadow-lg"
+                    >
+                      <div className="w-full bg-white rounded-2xl shadow-inner p-2 flex items-center justify-center">
+                        <div className="relative w-full h-[550px]">
+                          <Image 
+                            src={`/app-screenshot-${index+1}.png`} 
+                            alt="App features screenshots"
+                            fill
+                            className="object-contain"
+                            style={{ objectPosition: 'center center' }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </motion.div>
               </div>
 
               {/* Next Button */}

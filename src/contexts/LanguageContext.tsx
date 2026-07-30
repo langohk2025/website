@@ -1,7 +1,24 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { LanguageCode, languages } from '@/lib/languages';
+import en from '@/translations/en.json';
+import zhTW from '@/translations/zh-TW.json';
+import zhCN from '@/translations/zh-CN.json';
+import ja from '@/translations/ja.json';
+import ms from '@/translations/ms.json';
+import id from '@/translations/id.json';
+import my from '@/translations/my.json';
+
+const translationMap: Record<LanguageCode, Record<string, string>> = {
+  en,
+  'zh-TW': zhTW,
+  'zh-CN': zhCN,
+  ja,
+  ms,
+  id,
+  my,
+};
 
 interface LanguageContextType {
   currentLanguage: LanguageCode;
@@ -25,30 +42,7 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>('en');
-  const [translations, setTranslations] = useState<Record<string, string>>({});
-
-  // Load translations when language changes
-  useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        const response = await import(`@/translations/${currentLanguage}.json`);
-        setTranslations(response.default);
-      } catch (error) {
-        console.warn(`Failed to load translations for ${currentLanguage}:`, error);
-        // Fallback to English if translation file doesn't exist
-        if (currentLanguage !== 'en') {
-          try {
-            const fallback = await import(`@/translations/en.json`);
-            setTranslations(fallback.default);
-          } catch (fallbackError) {
-            console.error('Failed to load fallback translations:', fallbackError);
-          }
-        }
-      }
-    };
-
-    loadTranslations();
-  }, [currentLanguage]);
+  const translations = translationMap[currentLanguage] ?? translationMap.en;
 
   // Load saved language preference on mount
   useEffect(() => {
@@ -58,19 +52,23 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     }
   }, []);
 
-  const setLanguage = (language: LanguageCode) => {
+  const setLanguage = useCallback((language: LanguageCode) => {
     setCurrentLanguage(language);
     localStorage.setItem('preferred-language', language);
-    // Update document language attribute
     document.documentElement.lang = language;
-  };
+  }, []);
 
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     return translations[key] || key;
-  };
+  }, [translations]);
+
+  const value = useMemo(
+    () => ({ currentLanguage, setLanguage, t }),
+    [currentLanguage, setLanguage, t]
+  );
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

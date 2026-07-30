@@ -1,0 +1,39 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "lango-website",
+	"compatibility_date": "2026-07-24",
+	"pages_build_output_dir": "out",
+	// Production D1 (lango.ai). Create with:
+	//   wrangler d1 create lango-website-db
+	// Then replace database_id and run:
+	//   npm run db:migrate:remote
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "lango-website-db",
+			"database_id": "d2906aac-75a3-431d-ac1f-e9d5df3b3b1f",
+			"migrations_dir": "migrations"
+		},
+		{
+			"binding": "lango_website_db_preview",
+			"database_name": "lango-website-db-preview",
+			"database_id": "fd119222-a39e-4e21-b379-670289dd74d0",
+			"remote": true
+		}
+	],
+	// Preview D1 (test.lango.ai). Create with:
+	//   wrangler d1 create lango-website-db-preview
+	// Bind in Cloudflare Pages → Settings → Functions → D1 (Preview environment).
+	"env": {
+		"preview": {
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "lango-website-db-preview",
+					"database_id": "fd119222-a39e-4e21-b379-670289dd74d0",
+					"migrations_dir": "migrations"
+				}
+			]
+		}
+	}
+}
