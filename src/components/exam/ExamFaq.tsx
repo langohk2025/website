@@ -2,14 +2,15 @@
 
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { Label3, P3 } from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
 
 type FaqItem = {
-  question: string
-  answer: string
+  questionKey: string
+  answerKey: string
 }
 
 type ExamFaqProps = {
@@ -17,15 +18,17 @@ type ExamFaqProps = {
 }
 
 export default function ExamFaq({ items }: ExamFaqProps) {
+  const { t } = useLanguage()
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
     <div className="flex w-full flex-col gap-4">
       {items.map((item, index) => {
         const isOpen = openIndex === index
+        const question = t(item.questionKey)
 
         return (
-          <GlassCard key={item.question} hover={false} className="overflow-hidden p-0">
+          <GlassCard key={item.questionKey} hover={false} className="overflow-hidden p-0">
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : index)}
@@ -33,7 +36,7 @@ export default function ExamFaq({ items }: ExamFaqProps) {
               aria-expanded={isOpen}
             >
               <Label3 as="span" className="text-font-600">
-                {item.question}
+                {question}
               </Label3>
               <ChevronDown
                 className={cn(
@@ -42,20 +45,21 @@ export default function ExamFaq({ items }: ExamFaqProps) {
                 )}
               />
             </button>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-                >
-                  <div className="border-t border-font-200/40 px-6 pb-5 pt-4 lg:px-8">
-                    <P3 className="text-font-500">{item.answer}</P3>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Keep all answers in the DOM so crawlers / GEO can read every FAQ. */}
+            <motion.div
+              initial={false}
+              animate={{
+                height: isOpen ? 'auto' : 0,
+                opacity: isOpen ? 1 : 0,
+              }}
+              transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+              className="overflow-hidden"
+              aria-hidden={!isOpen}
+            >
+              <div className="border-t border-font-200/40 px-6 pb-5 pt-4 lg:px-8">
+                <P3 className="text-font-500">{t(item.answerKey)}</P3>
+              </div>
+            </motion.div>
           </GlassCard>
         )
       })}

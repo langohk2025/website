@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: 'Exam Preparation | Lango.ai',
   description:
     'AI-powered exam preparation for SPM, DSE, IELTS, TOEIC and more. Build speaking confidence with role-play practice and instant feedback.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function ExamPage() {

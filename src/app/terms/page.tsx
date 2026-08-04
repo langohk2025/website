@@ -1,9 +1,11 @@
-import { Metadata } from 'next'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: 'Terms of Service | Lango.ai',
-  description: 'Terms of Service for Lango.ai - Learn about the terms and conditions for using our language learning platform.',
-}
+  description:
+    'Terms of Service for Lango.ai - Learn about the terms and conditions for using our language learning platform.',
+  path: '/terms/',
+})
 
 export default function TermsOfServicePage() {
   return (

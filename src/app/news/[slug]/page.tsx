@@ -1,10 +1,14 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { JsonLd } from '@/components/JsonLd'
 import { NewsDetailContent } from '@/components/news/NewsDetailContent'
 import { getAllNewsArticles, getNewsArticleBySlug } from '@/lib/sanity'
 import { getLocalizedValue } from '@/lib/sanity.locales'
+import { buildPageMetadata } from '@/lib/seo'
+import { absoluteUrl } from '@/lib/site'
+import { buildNewsArticleSchema } from '@/lib/structured-data'
 
 type NewsDetailPageProps = {
   params: Promise<{ slug: string }>
@@ -26,10 +30,15 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
   const title = getLocalizedValue(item.title, 'en', 'News')
   const description = getLocalizedValue(item.excerpt, 'en')
 
-  return {
+  return buildPageMetadata({
     title: `${title} | Lango.ai`,
     description,
-  }
+    path: `/news/${slug}/`,
+    image: {
+      url: item.imageSrc,
+      alt: title,
+    },
+  })
 }
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
@@ -40,8 +49,21 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     notFound()
   }
 
+  const title = getLocalizedValue(item.title, 'en', 'News')
+  const description = getLocalizedValue(item.excerpt, 'en')
+
   return (
     <>
+      <JsonLd
+        data={buildNewsArticleSchema({
+          title,
+          description,
+          url: absoluteUrl(`/news/${slug}/`),
+          imageUrl: item.imageSrc,
+          datePublished: item.date,
+          author: item.author,
+        })}
+      />
       <Header />
       <main className="bg-bg-500">
         <NewsDetailContent item={item} />

@@ -1,9 +1,11 @@
-import { Metadata } from 'next'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: 'Privacy Policy | Lango.ai',
-  description: 'Privacy Policy for Lango.ai - Learn how we collect, use, and protect your personal information.',
-}
+  description:
+    'Privacy Policy for Lango.ai - Learn how we collect, use, and protect your personal information.',
+  path: '/privacy-policy/',
+})
 
 export default function PrivacyPolicyPage() {
   return (
