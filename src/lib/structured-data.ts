@@ -1,5 +1,5 @@
-import en from '@/translations/en.json'
 import { spmFaqs } from '@/data/spm-exam'
+import en from '@/translations/en.json'
 import { absoluteUrl, ORGANIZATION, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 
 type FaqEntry = {
@@ -50,8 +50,8 @@ export function buildOrganizationGraph() {
 
 export function getSpmFaqEntries(): FaqEntry[] {
   return spmFaqs.map(({ questionKey, answerKey }) => ({
-    question: en[questionKey as keyof typeof en] ?? questionKey,
-    answer: en[answerKey as keyof typeof en] ?? answerKey,
+    question: en[questionKey as keyof typeof en],
+    answer: en[answerKey as keyof typeof en],
   }))
 }
 

@@ -1,9 +1,13 @@
+'use client'
+
 import Image from 'next/image'
 import {
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react'
 import ExamFaq from '@/components/exam/ExamFaq'
+import { StoryworldVideoPlayer } from '@/components/storyworld/StoryworldVideoPlayer'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { PressableLink, Reveal, Stagger, StaggerItem } from '@/components/ui/motion'
 import { PageContainer, Section } from '@/components/ui/section'
@@ -21,6 +25,8 @@ import {
 import {
   LJEC_LESSONS_URL,
   spmBooks,
+  spmCtaPoints,
+  spmExplainerVideo,
   spmExperts,
   spmFaqs,
   spmFeatures,
@@ -102,6 +108,8 @@ function PartnerLogos({ className }: { className?: string }) {
 }
 
 export default function SpmExamContent() {
+  const { t } = useLanguage()
+
   return (
     <>
       {/* Hero */}
@@ -112,37 +120,31 @@ export default function SpmExamContent() {
               <Reveal>
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-col gap-3">
-                    <P3 className="font-medium text-brand-500">
-                      A Collaborative Effort by
-                    </P3>
+                    <P3 className="font-medium text-brand-500">{t('spm.hero.collab')}</P3>
                     <PartnerLogos />
                   </div>
                   <div className="flex flex-col gap-3">
-                    <H1Gradient as="h1">Build Confidence. Speak Better.</H1Gradient>
-                    <H1Sub as="span">Score Better for SPM English.</H1Sub>
+                    <H1Gradient as="h1">{t('spm.hero.title')}</H1Gradient>
+                    <H1Sub as="span">{t('spm.hero.subtitle')}</H1Sub>
                   </div>
                   <div className="inline-flex w-fit rounded-full bg-brand-300/40 px-4 py-2">
-                    <Label6 className="text-brand-500">
-                      1st SPM English Speaking App in Malaysia!
-                    </Label6>
+                    <Label6 className="text-brand-500">{t('spm.hero.badge')}</Label6>
                   </div>
-                  <P1 className="max-w-xl">
-                    Struggling to gain confidence in English Speaking for SPM? Our app helps
-                    students practise speaking in a fun, interactive, and stress-free way.
-                    With AI-powered role-play conversations, instant feedback, and gamified
-                    learning, students can improve fluency naturally — one conversation at a
-                    time.
-                  </P1>
+                  <P1 className="max-w-xl">{t('spm.hero.body')}</P1>
                 </div>
               </Reveal>
 
               <Reveal delay={0.08}>
                 <div className="flex flex-wrap items-center gap-5">
                   <PressableLink href="#contact" variant="primary">
-                    <Label2 className="whitespace-nowrap text-bg-100">Start Free Trial</Label2>
+                    <Label2 className="whitespace-nowrap text-bg-100">
+                      {t('spm.hero.cta_trial')}
+                    </Label2>
                   </PressableLink>
                   <PressableLink href="#features" variant="secondary">
-                    <Label2 className="whitespace-nowrap text-[#4f0b52]">Explore Features</Label2>
+                    <Label2 className="whitespace-nowrap text-[#4f0b52]">
+                      {t('spm.hero.cta_features')}
+                    </Label2>
                   </PressableLink>
                 </div>
               </Reveal>
@@ -152,7 +154,7 @@ export default function SpmExamContent() {
               <div className="relative mx-auto aspect-square w-full max-w-[480px]">
                 <Image
                   src="/exam/spm-screen.png"
-                  alt="SPM English Speaking Success app"
+                  alt={t('spm.hero.image_alt')}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"
                   className="object-contain"
@@ -170,14 +172,25 @@ export default function SpmExamContent() {
           <div className="flex flex-col items-center gap-16">
             <Reveal>
               <SectionHeading
-                title="SPM English Speaking Success (SPM ESS) App"
-                subtitle="Make Speaking English Feel Natural and Easy. Lango is an AI-powered speaking practice app designed to help SPM students improve their English speaking skills through real conversations, role-play scenarios, and instant feedback."
+                title={t('spm.intro.title')}
+                subtitle={t('spm.intro.subtitle')}
               />
+            </Reveal>
+
+            <Reveal delay={0.06} className="w-full max-w-4xl">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <Label3 as="h3">{t('spm.video.title')}</Label3>
+                <P3 className="max-w-2xl">{t('spm.video.subtitle')}</P3>
+                <StoryworldVideoPlayer
+                  youtubeId={spmExplainerVideo.youtubeId}
+                  className="mt-2 w-full"
+                />
+              </div>
             </Reveal>
 
             <Stagger className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
               {spmUsps.map((usp) => (
-                <StaggerItem key={usp.title}>
+                <StaggerItem key={usp.titleKey}>
                   <GlassCard className="flex items-start gap-5 p-8">
                     <div
                       className={cn(
@@ -189,8 +202,8 @@ export default function SpmExamContent() {
                       <usp.icon className="size-7 text-bg-100" strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <Label3 as="h3">{usp.title}</Label3>
-                      <P3>{usp.description}</P3>
+                      <Label3 as="h3">{t(usp.titleKey)}</Label3>
+                      <P3>{t(usp.descKey)}</P3>
                     </div>
                   </GlassCard>
                 </StaggerItem>
@@ -206,14 +219,14 @@ export default function SpmExamContent() {
           <div className="flex flex-col items-center gap-16">
             <Reveal>
               <SectionHeading
-                title="The Smarter Way to SPM English Speaking Success"
-                subtitle="Lango is specifically designed to build speaking confidence, fluency, and exam readiness through interactive AI role-play practice and personalised instant feedback."
+                title={t('spm.features.title')}
+                subtitle={t('spm.features.subtitle')}
               />
             </Reveal>
 
             <Stagger className="grid w-full grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
               {spmFeatures.map((feature) => (
-                <StaggerItem key={feature.title}>
+                <StaggerItem key={feature.titleKey}>
                   <GlassCard className="flex h-full flex-col p-8">
                     <div
                       className={cn(
@@ -225,9 +238,9 @@ export default function SpmExamContent() {
                       <feature.icon className="size-10 text-bg-100" strokeWidth={1.5} />
                     </div>
                     <Label3 as="h3" className="mb-3">
-                      {feature.title}
+                      {t(feature.titleKey)}
                     </Label3>
-                    <P3>{feature.description}</P3>
+                    <P3>{t(feature.descKey)}</P3>
                   </GlassCard>
                 </StaggerItem>
               ))}
@@ -242,20 +255,20 @@ export default function SpmExamContent() {
           <div className="flex flex-col items-center gap-16">
             <Reveal>
               <SectionHeading
-                title="Our Simple 3-Step Path to SPM English Speaking Mastery"
-                subtitle="Discover our straightforward three-step process designed to empower students to confidently master their SPM English Speaking. We focus on consistent practice, insightful feedback, and clear progress tracking."
+                title={t('spm.steps.title')}
+                subtitle={t('spm.steps.subtitle')}
               />
             </Reveal>
 
             <Stagger className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3">
               {spmSteps.map((step, index) => (
-                <StaggerItem key={step.title}>
+                <StaggerItem key={step.titleKey}>
                   <GlassCard className="relative flex h-full flex-col gap-4 p-8">
                     <span className="flex size-10 items-center justify-center rounded-full bg-brand-300/50 font-poppins text-lg font-bold text-brand-500">
                       {index + 1}
                     </span>
-                    <Label3 as="h3">{step.title}</Label3>
-                    <P3>{step.description}</P3>
+                    <Label3 as="h3">{t(step.titleKey)}</Label3>
+                    <P3>{t(step.descKey)}</P3>
                   </GlassCard>
                 </StaggerItem>
               ))}
@@ -270,8 +283,8 @@ export default function SpmExamContent() {
           <div className="flex flex-col items-center gap-16">
             <Reveal>
               <SectionHeading
-                title="Meet the Experts Behind SPM English Speaking Success Plan"
-                subtitle="A collaboration between LJEC educators and Lango's AI speaking platform — built for SPM students."
+                title={t('spm.experts.title')}
+                subtitle={t('spm.experts.subtitle')}
               />
             </Reveal>
 
@@ -279,7 +292,7 @@ export default function SpmExamContent() {
               <div className="overflow-hidden rounded-[32px] shadow-[0_24px_48px_rgba(104,50,102,0.12)]">
                 <Image
                   src="/exam/spm-teachers.jpeg"
-                  alt="LJEC SPM team — Ms Grace, Mr Lok, Ms Nat, and Ms Yamuna"
+                  alt={t('spm.experts.teachers_alt')}
                   width={2048}
                   height={2560}
                   className="h-auto w-full object-cover"
@@ -290,22 +303,22 @@ export default function SpmExamContent() {
 
             <Stagger className="grid w-full grid-cols-1 gap-8 md:grid-cols-2">
               {spmExperts.map((expert) => (
-                <StaggerItem key={expert.name}>
+                <StaggerItem key={expert.id}>
                   <GlassCard className="flex h-full flex-col gap-5 p-8">
                     <PartnerLogo
-                      partner={expert.name === 'LJEC' ? 'ljec' : 'lango'}
+                      partner={expert.id === 'ljec' ? 'ljec' : 'lango'}
                       size="card"
                       className="justify-start"
                     />
-                    <P3>{expert.description}</P3>
-                    {'href' in expert && expert.href && (
+                    <P3>{t(expert.descKey)}</P3>
+                    {expert.href && expert.ctaKey && (
                       <a
                         href={expert.href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-auto inline-flex items-center gap-2 text-brand-500 transition-opacity hover:opacity-80"
                       >
-                        <Label6 className="text-brand-500">{expert.cta}</Label6>
+                        <Label6 className="text-brand-500">{t(expert.ctaKey)}</Label6>
                         <ArrowRight className="size-4" />
                       </a>
                     )}
@@ -317,11 +330,8 @@ export default function SpmExamContent() {
             <div className="flex w-full flex-col items-center gap-8">
               <Reveal>
                 <div className="flex flex-col items-center gap-3 text-center">
-                  <Label3 as="h3">SPM books available in POPULAR bookstores</Label3>
-                  <P3 className="max-w-xl">
-                    LJEC&apos;s Form 5 SPM Speaking Guidebooks — CEFR-aligned techniques,
-                    vocabulary, and model responses for Parts 1–3.
-                  </P3>
+                  <Label3 as="h3">{t('spm.experts.books.title')}</Label3>
+                  <P3 className="max-w-xl">{t('spm.experts.books.desc')}</P3>
                   <a
                     href={LJEC_LESSONS_URL}
                     target="_blank"
@@ -329,7 +339,7 @@ export default function SpmExamContent() {
                     className="mt-2 inline-flex items-center gap-2 text-brand-500 transition-opacity hover:opacity-80"
                   >
                     <Label6 className="text-brand-500">
-                      Explore LJEC&apos;s SPM programme
+                      {t('spm.experts.books.cta')}
                     </Label6>
                     <ArrowRight className="size-4" />
                   </a>
@@ -342,7 +352,7 @@ export default function SpmExamContent() {
                     <div className="overflow-hidden rounded-2xl shadow-[0_16px_32px_rgba(104,50,102,0.12)]">
                       <Image
                         src={book.src}
-                        alt={book.alt}
+                        alt={t(book.altKey)}
                         width={1185}
                         height={1600}
                         className="h-auto w-full object-cover"
@@ -363,8 +373,8 @@ export default function SpmExamContent() {
           <div className="flex flex-col items-center gap-12">
             <Reveal>
               <SectionHeading
-                title="Frequently Asked Questions"
-                subtitle="Everything you need to know about preparing for SPM English Speaking with Lango."
+                title={t('spm.faq.title')}
+                subtitle={t('spm.faq.subtitle')}
               />
             </Reveal>
             <Reveal delay={0.08} className="w-full max-w-3xl">
@@ -381,28 +391,23 @@ export default function SpmExamContent() {
             <GlassCard className="flex flex-col items-center gap-8 px-8 py-12 text-center lg:px-16 lg:py-16">
               <div className="flex flex-col gap-4">
                 <H2 className="bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end bg-clip-text text-transparent">
-                  Start practising today
+                  {t('spm.cta.title')}
                 </H2>
-                <P1 className="max-w-2xl">
-                  Make SPM English speaking feel easier, smarter, and more confident with
-                  the SPM ESS App.
-                </P1>
+                <P1 className="max-w-2xl">{t('spm.cta.body')}</P1>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <PressableLink href="#contact" variant="primary" className="gap-3">
-                  <Label2 className="text-bg-100">Get Started Free</Label2>
+                  <Label2 className="text-bg-100">{t('spm.cta.button')}</Label2>
                   <ArrowRight className="size-5 text-bg-100" />
                 </PressableLink>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-6">
-                {['Free trial available', 'SPM syllabus aligned', 'Parts 1–3 covered'].map(
-                  (item) => (
-                    <span key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="size-4 text-brand-500" />
-                      <Label6>{item}</Label6>
-                    </span>
-                  )
-                )}
+                {spmCtaPoints.map((key) => (
+                  <span key={key} className="flex items-center gap-2">
+                    <CheckCircle2 className="size-4 text-brand-500" />
+                    <Label6>{t(key)}</Label6>
+                  </span>
+                ))}
               </div>
             </GlassCard>
           </Reveal>

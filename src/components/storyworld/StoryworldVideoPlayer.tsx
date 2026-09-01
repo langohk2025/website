@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Pause, Play, Volume2, VolumeX } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
 
 interface YTPlayer {
@@ -57,11 +58,18 @@ function loadYouTubeApi() {
 
   if (!youtubeApiPromise) {
     youtubeApiPromise = new Promise((resolve) => {
+      const finish = () => resolve()
+
+      if (window.YT?.Player) {
+        finish()
+        return
+      }
+
       const previousReady = window.onYouTubeIframeAPIReady
 
       window.onYouTubeIframeAPIReady = () => {
         previousReady?.()
-        resolve()
+        finish()
       }
 
       if (!document.getElementById('youtube-iframe-api')) {
@@ -69,6 +77,13 @@ function loadYouTubeApi() {
         script.id = 'youtube-iframe-api'
         script.src = 'https://www.youtube.com/iframe_api'
         document.head.appendChild(script)
+      } else {
+        const poll = window.setInterval(() => {
+          if (window.YT?.Player) {
+            window.clearInterval(poll)
+            finish()
+          }
+        }, 50)
       }
     })
   }
@@ -82,6 +97,7 @@ type StoryworldVideoPlayerProps = {
 }
 
 export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoPlayerProps) {
+  const { t } = useLanguage()
   const mountRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayer | null>(null)
   const progressTimerRef = useRef<number | null>(null)
@@ -92,7 +108,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(80)
   const [isMuted, setIsMuted] = useState(false)
-  const [hasStarted, setHasStarted] = useState(false)
+  const [showPoster, setShowPoster] = useState(true)
 
   const posterSrc = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
 
@@ -135,6 +151,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
             if (ended) {
               setIsPlaying(false)
               setCurrentTime(0)
+              setShowPoster(true)
               target.seekTo(0, true)
               target.pauseVideo()
             }
@@ -183,7 +200,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
 
   const togglePlayback = () => {
     const player = playerRef.current
-    if (!player) return
+    if (!player || !isReady) return
 
     if (isPlaying) {
       player.pauseVideo()
@@ -191,7 +208,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
       return
     }
 
-    setHasStarted(true)
+    setShowPoster(false)
     player.playVideo()
     setIsPlaying(true)
   }
@@ -244,14 +261,32 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
         className
       )}
     >
-      <div className="relative aspect-[592/443] w-full bg-black">
-        <div ref={mountRef} className="absolute inset-0 h-full w-full" />
-        {!hasStarted && (
+      <div className="relative aspect-[592/443] w-full overflow-hidden bg-black">
+        <div
+          ref={mountRef}
+          className={cn(
+            'absolute inset-0 h-full w-full',
+            showPoster && 'pointer-events-none invisible'
+          )}
+        />
+        {!showPoster && (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 z-20 h-14 bg-gradient-to-b from-black to-transparent"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-10 bg-gradient-to-t from-black to-transparent"
+            />
+          </>
+        )}
+        {showPoster && (
           <button
             type="button"
             onClick={togglePlayback}
             disabled={!isReady}
-            aria-label="Start video"
+            aria-label={t('storyworld.video.start')}
             className="absolute inset-0 z-10 overflow-hidden disabled:cursor-wait"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -275,7 +310,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
           type="button"
           onClick={togglePlayback}
           disabled={!isReady}
-          aria-label={isPlaying ? 'Pause video' : 'Play video'}
+          aria-label={isPlaying ? t('storyworld.video.pause') : t('storyworld.video.play')}
           className="flex size-9 shrink-0 items-center justify-center rounded-full text-bg-100 transition-colors hover:bg-white/10 disabled:opacity-50"
         >
           {isPlaying ? <Pause className="size-5" /> : <Play className="size-5 translate-x-px" />}
@@ -289,7 +324,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
           value={Math.min(currentTime, duration || 0)}
           disabled={!isReady || duration === 0}
           onChange={(event) => handleSeek(Number(event.target.value))}
-          aria-label="Video progress"
+          aria-label={t('storyworld.video.progress')}
           className="h-1.5 min-w-0 flex-1 cursor-pointer appearance-none rounded-full bg-white/20 accent-brand-400 disabled:cursor-not-allowed"
         />
 
@@ -297,7 +332,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
           type="button"
           onClick={toggleMute}
           disabled={!isReady}
-          aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+          aria-label={isMuted ? t('storyworld.video.unmute') : t('storyworld.video.mute')}
           className="flex size-9 shrink-0 items-center justify-center rounded-full text-bg-100 transition-colors hover:bg-white/10 disabled:opacity-50"
         >
           {isMuted || volume === 0 ? (
@@ -315,7 +350,7 @@ export function StoryworldVideoPlayer({ youtubeId, className }: StoryworldVideoP
           value={isMuted ? 0 : volume}
           disabled={!isReady}
           onChange={(event) => handleVolumeChange(Number(event.target.value))}
-          aria-label="Video volume"
+          aria-label={t('storyworld.video.volume')}
           className="h-1.5 w-20 shrink-0 cursor-pointer appearance-none rounded-full bg-white/20 accent-brand-400 disabled:cursor-not-allowed"
         />
       </div>
