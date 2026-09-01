@@ -10,10 +10,10 @@ export const SITE_DESCRIPTION =
   'Practice English speaking with our AI robot. Gamified experience with role-play exercises, immediate grading, and immersive conversational scenarios.'
 
 export const DEFAULT_OG_IMAGE = {
-  url: '/figma/ecosystem.png',
-  width: 1000,
-  height: 1000,
-  alt: 'Lango AI language learning ecosystem',
+  url: '/og-image.png',
+  width: 1200,
+  height: 630,
+  alt: 'Lango logo',
 } as const
 
 export const ORGANIZATION = {
@@ -37,12 +37,15 @@ export const ORGANIZATION = {
   ],
 } as const
 
+/** SPM English Speaking landing page (trailing slash). */
+export const SPM_EXAM_PATH = '/ljec-spm-english-speaking-AI-app/' as const
+
 /** Public routes included in the sitemap (trailing-slash paths). */
 export const PUBLIC_STATIC_PATHS = [
   '/',
   '/product/',
   '/storyworld/',
-  '/exam/spm/',
+  SPM_EXAM_PATH,
   '/news/',
   '/privacy-policy/',
   '/terms/',

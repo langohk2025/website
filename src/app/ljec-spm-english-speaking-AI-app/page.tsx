@@ -6,7 +6,7 @@ import SpmExamContent from '@/components/exam/SpmExamContent'
 import { JsonLd } from '@/components/JsonLd'
 import { getExamBySlug } from '@/data/exams'
 import { buildPageMetadata } from '@/lib/seo'
-import { absoluteUrl } from '@/lib/site'
+import { absoluteUrl, SPM_EXAM_PATH } from '@/lib/site'
 import { buildFaqPageSchema, getSpmFaqEntries } from '@/lib/structured-data'
 
 const exam = getExamBySlug('spm')
@@ -15,7 +15,7 @@ export const metadata = buildPageMetadata({
   title: 'SPM English Speaking Success | Lango.ai',
   description:
     "Malaysia's 1st SPM English Speaking App. Build confidence, practise Parts 1–3 with AI role-play, and get instant feedback. A collaboration by LJEC & Lango.",
-  path: '/exam/spm/',
+  path: SPM_EXAM_PATH,
   image: {
     url: '/exam/spm-screen.png',
     width: 2048,
@@ -32,7 +32,7 @@ export default function SpmExamPage() {
   return (
     <>
       <JsonLd
-        data={buildFaqPageSchema(getSpmFaqEntries(), absoluteUrl('/exam/spm/'))}
+        data={buildFaqPageSchema(getSpmFaqEntries(), absoluteUrl(SPM_EXAM_PATH))}
       />
       <Header />
       <main className="bg-bg-500">

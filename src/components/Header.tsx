@@ -10,12 +10,13 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { PageContainer } from '@/components/ui/section'
 import { PressableButton, PressableLink } from '@/components/ui/motion'
 import { Label2 } from '@/components/ui/typography'
+import { SPM_EXAM_PATH } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
   { href: '/#about', labelKey: 'nav.about' },
   { href: '/product', labelKey: 'nav.product' },
-  { href: '/exam/spm', labelKey: 'nav.spm_exam' },
+  { href: SPM_EXAM_PATH, labelKey: 'nav.spm_exam' },
   { href: '/storyworld', labelKey: 'nav.storyworld' },
   { href: '/news', labelKey: 'nav.news' },
   { href: '/#contact', labelKey: 'nav.contact' },

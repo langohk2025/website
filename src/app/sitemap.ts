@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllNewsArticles } from '@/lib/sanity'
-import { absoluteUrl, PUBLIC_STATIC_PATHS } from '@/lib/site'
+import { absoluteUrl, PUBLIC_STATIC_PATHS, SPM_EXAM_PATH } from '@/lib/site'
 
 export const dynamic = 'force-static'
 
@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: absoluteUrl(path),
     lastModified: now,
     changeFrequency: path === '/' ? 'weekly' : 'monthly',
-    priority: path === '/' ? 1 : path === '/exam/spm/' || path === '/product/' ? 0.9 : 0.7,
+    priority: path === '/' ? 1 : path === SPM_EXAM_PATH || path === '/product/' ? 0.9 : 0.7,
   }))
 
   const articles = await getAllNewsArticles()
