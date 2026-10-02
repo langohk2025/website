@@ -108,6 +108,42 @@ function ogContent(html, name) {
   return match ? decodeHtml(match[1]) : null
 }
 
+/**
+ * Parse the company page's JSON-LD @graph, which carries full post text and
+ * publish dates even when LinkedIn's embed endpoint does not serve a post
+ * (e.g. urn:li:activity:7437797709882982400 returns 404 on /embed/).
+ */
+function parseJsonLdPostings(companyHtml) {
+  const postings = new Map()
+
+  for (const match of companyHtml.matchAll(
+    /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g
+  )) {
+    let data
+    try {
+      data = JSON.parse(match[1].trim())
+    } catch {
+      continue
+    }
+    const graph = Array.isArray(data?.['@graph']) ? data['@graph'] : [data]
+
+    for (const entry of graph) {
+      if (entry?.['@type'] !== 'SocialMediaPosting') continue
+      const url = entry.mainEntityOfPage || entry.url
+      const activityId = typeof url === 'string' ? parseActivityId(url) : null
+      if (!activityId) continue
+      postings.set(activityId, {
+        url: url.split('?')[0],
+        datePublished: entry.datePublished ?? null,
+        text: typeof entry.text === 'string' ? entry.text : '',
+        headline: typeof entry.headline === 'string' ? entry.headline : '',
+      })
+    }
+  }
+
+  return postings
+}
+
 /** LinkedIn activity IDs encode Unix ms as (id >> 22). */
 function activityToIso(activityId) {
   const ms = Number(BigInt(activityId) >> 22n)
@@ -251,27 +287,45 @@ async function uploadCoverImage(activityId, imageUrl) {
   }
 }
 
-async function fetchPostDetails(postUrl) {
+async function fetchPostDetails(postUrl, jsonLdPosting) {
   const activityId = parseActivityId(postUrl)
   if (!activityId) return null
 
-  const embedHtml = await fetchText(
-    `https://www.linkedin.com/embed/feed/update/urn:li:activity:${activityId}`
-  )
+  let description = ''
+  let ogTitle = ''
+  let image = null
 
-  const description = ogContent(embedHtml, 'description') || ''
-  const ogTitle = ogContent(embedHtml, 'title') || ''
-  const image =
-    ogContent(embedHtml, 'image') ||
-    [...embedHtml.matchAll(/https:\/\/media\.licdn\.com\/dms\/image\/[^"'&\s]+/g)]
-      .map((m) => decodeHtml(m[0]))
-      .find((url) => /feedshare/i.test(url)) ||
-    null
+  // Prefer the embed endpoint; fall back to company-page JSON-LD when it 404s.
+  try {
+    const embedHtml = await fetchText(
+      `https://www.linkedin.com/embed/feed/update/urn:li:activity:${activityId}`
+    )
+    description = ogContent(embedHtml, 'description') || ''
+    ogTitle = ogContent(embedHtml, 'title') || ''
+    image =
+      ogContent(embedHtml, 'image') ||
+      [...embedHtml.matchAll(/https:\/\/media\.licdn\.com\/dms\/image\/[^"'&\s]+/g)]
+        .map((m) => decodeHtml(m[0]))
+        .find((url) => /feedshare/i.test(url)) ||
+      null
+  } catch (error) {
+    if (!jsonLdPosting) {
+      console.warn(
+        `  ! embed fetch failed and no JSON-LD fallback for ${activityId}: ${error.message}`
+      )
+      return null
+    }
+    console.warn(`  ! embed fetch failed for ${activityId}, using JSON-LD fallback`)
+    description = jsonLdPosting.text
+    ogTitle = jsonLdPosting.headline
+  }
+
+  const publishedAt = jsonLdPosting?.datePublished || activityToIso(activityId)
 
   return {
     activityId,
     postUrl: postUrl.split('?')[0],
-    publishedAt: activityToIso(activityId),
+    publishedAt,
     description,
     ogTitle,
     imageUrl: image,
@@ -313,39 +367,56 @@ async function sync() {
 
   console.log(`${candidates.length} new post(s) to import (cap ${maxNew})`)
 
+  const jsonLdPostings = parseJsonLdPostings(companyHtml)
+  if (jsonLdPostings.size) {
+    console.log(`Parsed ${jsonLdPostings.size} JSON-LD posting(s) as fallback data`)
+  }
+
   let created = 0
   for (const url of candidates.slice(0, maxNew)) {
-    const post = await fetchPostDetails(url)
-    if (!post) continue
+    try {
+      const post = await fetchPostDetails(url, jsonLdPostings.get(parseActivityId(url)))
+      if (!post) continue
 
-    const docId = `linkedin-${post.activityId}`
-    console.log(`→ ${post.title}`)
-    console.log(`  ${post.publishedAt} · ${post.category}`)
-    console.log(`  ${post.postUrl}`)
+      const docId = `linkedin-${post.activityId}`
+      console.log(`→ ${post.title}`)
+      console.log(`  ${post.publishedAt} · ${post.category}`)
+      console.log(`  ${post.postUrl}`)
 
-    const image = await uploadCoverImage(post.activityId, post.imageUrl)
+      const image = await uploadCoverImage(post.activityId, post.imageUrl).catch(
+        (error) => {
+          console.warn(
+            `  ! cover image failed for ${post.activityId}, importing without image: ${error.message}`
+          )
+          return undefined
+        }
+      )
 
-    const document = {
-      _id: docId,
-      _type: 'news',
-      title: localizedFromEnglish(post.title),
-      slug: { _type: 'slug', current: `linkedin-${post.activityId}` },
-      excerpt: localizedFromEnglish(post.excerpt),
-      publishedAt: post.publishedAt,
-      author: 'Lango',
-      category: post.category,
-      published: publish,
-      externalUrl: post.postUrl,
-      ...(image ? { image } : {}),
+      const document = {
+        _id: docId,
+        _type: 'news',
+        title: localizedFromEnglish(post.title),
+        slug: { _type: 'slug', current: `linkedin-${post.activityId}` },
+        excerpt: localizedFromEnglish(post.excerpt),
+        publishedAt: post.publishedAt,
+        author: 'Lango',
+        category: post.category,
+        published: publish,
+        externalUrl: post.postUrl,
+        ...(image ? { image } : {}),
+      }
+
+      if (dryRun) {
+        console.log('  (dry-run) would create', JSON.stringify(document, null, 2))
+      } else {
+        await client.createOrReplace(document)
+        console.log(`  ✓ ${publish ? 'published' : 'draft'} ${docId}`)
+      }
+      created += 1
+    } catch (error) {
+      // One broken post should not fail the whole sync run.
+      console.warn(`  ! skipped ${url}: ${error.message}`)
     }
-
-    if (dryRun) {
-      console.log('  (dry-run) would create', JSON.stringify(document, null, 2))
-    } else {
-      await client.createOrReplace(document)
-      console.log(`  ✓ ${publish ? 'published' : 'draft'} ${docId}`)
-    }
-    created += 1
   }
 
   console.log(`Done. ${created} post(s) ${dryRun ? 'previewed' : 'synced'}.`)
