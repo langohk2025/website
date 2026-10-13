@@ -5,3 +5,5 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
 ADMIN_PASSWORD=change-me-to-a-strong-password
 CONTACT_EMAIL_TO=info@lango.ai
 CONTACT_EMAIL_FROM=Lango Website <noreply@lango.ai>
+OPENROUTER_API_KEY=sk-or-xxxxxxxx
+# OPENROUTER_MODEL=x-ai/grok-4.20

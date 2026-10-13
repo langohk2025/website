@@ -1,5 +1,6 @@
 import { handleOptions, jsonResponse } from '../_shared/cors'
 import { sendContactEmail } from '../_shared/resend'
+import { processDemoRequestLead } from '../_shared/process-lead'
 
 type ContactBody = {
   firstName?: string
@@ -8,6 +9,7 @@ type ContactBody = {
   phone?: string
   role?: string
   organization?: string
+  details?: string
   inquiryType?: 'demo' | 'partnership'
   website?: string
 }
@@ -32,6 +34,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const role = body.role?.trim()
     const organization = body.organization?.trim()
     const phone = body.phone?.trim() || null
+    const details = body.details?.trim().slice(0, 4000) || null
     const inquiryType = body.inquiryType
 
     if (!firstName || !lastName || !email || !role || !organization) {
@@ -48,12 +51,28 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     const result = await context.env.DB.prepare(
       `INSERT INTO demo_requests (
-        first_name, last_name, email, phone, role, organization, inquiry_type
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        first_name, last_name, email, phone, role, organization, inquiry_type, details, verification_status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
       RETURNING id, created_at`
     )
-      .bind(firstName, lastName, email, phone, role, organization, inquiryType)
+      .bind(firstName, lastName, email, phone, role, organization, inquiryType, details)
       .first<{ id: number; created_at: string }>()
+
+    if (result?.id) {
+      context.waitUntil(
+        processDemoRequestLead(context.env, {
+          id: result.id,
+          firstName,
+          lastName,
+          email,
+          phone,
+          role,
+          organization,
+          details,
+          inquiryType,
+        })
+      )
+    }
 
     let emailSent = false
     let emailError: string | undefined
@@ -67,6 +86,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         role,
         organization,
         inquiryType,
+        details: details ?? undefined,
       })
       emailSent = emailResult.sent
       if (!emailResult.sent) {

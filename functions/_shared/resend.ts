@@ -6,6 +6,15 @@ type ContactEmailPayload = {
   role: string
   organization: string
   inquiryType: 'demo' | 'partnership'
+  details?: string
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }
 
 export async function sendContactEmail(
@@ -25,14 +34,19 @@ export async function sendContactEmail(
   const from = env.CONTACT_EMAIL_FROM?.trim() ?? 'Lango Website <noreply@lango.ai>'
   const inquiryLabel = payload.inquiryType === 'demo' ? 'School demo' : 'Partnership inquiry'
 
+  const detailsHtml = payload.details
+    ? `<p><strong>Details:</strong></p><p>${escapeHtml(payload.details).replace(/\n/g, '<br>')}</p>`
+    : ''
+
   const html = `
     <h2>New contact inquiry</h2>
     <p><strong>Type:</strong> ${inquiryLabel}</p>
-    <p><strong>Name:</strong> ${payload.firstName} ${payload.lastName}</p>
-    <p><strong>Email:</strong> ${payload.email}</p>
-    <p><strong>Phone:</strong> ${payload.phone || '—'}</p>
-    <p><strong>Role:</strong> ${payload.role}</p>
-    <p><strong>Organization:</strong> ${payload.organization}</p>
+    <p><strong>Name:</strong> ${escapeHtml(payload.firstName)} ${escapeHtml(payload.lastName)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
+    <p><strong>Phone:</strong> ${payload.phone ? escapeHtml(payload.phone) : '—'}</p>
+    <p><strong>Role:</strong> ${escapeHtml(payload.role)}</p>
+    <p><strong>Organization:</strong> ${escapeHtml(payload.organization)}</p>
+    ${detailsHtml}
   `
 
   const response = await fetch('https://api.resend.com/emails', {

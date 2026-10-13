@@ -41,6 +41,12 @@ async function adminFetch<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json() as Promise<T>
 }
 
+export type LeadRisk = 'likely_real' | 'uncertain' | 'suspicious'
+export type LeadVerificationStatus = 'pending' | 'checking' | 'ready' | 'skipped' | 'error'
+export type ReplyDraftStatus = 'pending' | 'drafting' | 'ready' | 'skipped' | 'error'
+
+export type LeadSource = { title: string; url: string }
+
 export type DemoRequest = {
   id: number
   first_name: string
@@ -51,9 +57,21 @@ export type DemoRequest = {
   organization: string
   inquiry_type: 'demo' | 'partnership'
   status: 'new' | 'contacted' | 'closed'
+  details: string | null
   notes: string | null
   created_at: string
   updated_at: string
+  verification_status?: LeadVerificationStatus
+  verification_risk?: LeadRisk | null
+  verification_summary?: string | null
+  verification_findings?: string | null
+  verification_sources?: string | null
+  verification_checked_at?: string | null
+  reply_draft_status?: ReplyDraftStatus
+  reply_email_subject?: string | null
+  reply_email_body?: string | null
+  reply_whatsapp_body?: string | null
+  reply_drafted_at?: string | null
 }
 
 export async function fetchDemoRequests(params?: {
@@ -79,6 +97,40 @@ export async function updateDemoRequest(input: {
   const data = await adminFetch<{ item: DemoRequest }>('/api/admin/demo-requests', {
     method: 'PATCH',
     body: JSON.stringify(input),
+  })
+  return data.item
+}
+
+export function isStaleLeadCheck(
+  status: LeadVerificationStatus | undefined,
+  updatedAt: string | undefined,
+  staleMs = 2 * 60 * 1000
+) {
+  if (status !== 'checking' || !updatedAt) return false
+  return Date.now() - new Date(updatedAt).getTime() > staleMs
+}
+
+export function isStaleReplyDraft(
+  status: ReplyDraftStatus | undefined,
+  updatedAt: string | undefined,
+  staleMs = 2 * 60 * 1000
+) {
+  if (status !== 'drafting' || !updatedAt) return false
+  return Date.now() - new Date(updatedAt).getTime() > staleMs
+}
+
+export async function verifyDemoRequest(id: number) {
+  const data = await adminFetch<{ item: DemoRequest }>('/api/admin/demo-requests', {
+    method: 'POST',
+    body: JSON.stringify({ id, action: 'verify' }),
+  })
+  return data.item
+}
+
+export async function draftDemoRequestReply(id: number) {
+  const data = await adminFetch<{ item: DemoRequest }>('/api/admin/demo-requests', {
+    method: 'POST',
+    body: JSON.stringify({ id, action: 'draft' }),
   })
   return data.item
 }
