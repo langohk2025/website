@@ -79,12 +79,6 @@ export default function Footer() {
                 <Label2 className="mb-5 block text-bg-100">{t('footer.contact')}</Label2>
                 <ul className="flex flex-col gap-3 font-inter text-base text-font-100">
                   <li>
-                    <p>{t('footer.whatsapp')}</p>
-                    <a href="https://wa.me/85293541948" className="hover:text-white">
-                      +852 9354 1948
-                    </a>
-                  </li>
-                  <li>
                     <p>{t('footer.email')}</p>
                     <a href="mailto:info@lango.ai" className="hover:text-white">
                       info@lango.ai
