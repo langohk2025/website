@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import { JsonLd } from '@/components/JsonLd'
@@ -10,6 +11,8 @@ import {
   SITE_URL,
 } from '@/lib/site'
 import { buildOrganizationGraph } from '@/lib/structured-data'
+
+const SUPPORT_WIDGET_SRC = 'https://operation.lango.ai/support-widget.js'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -68,6 +71,8 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
         </LanguageProvider>
+        {/* AI support chat bubble, served and managed by the operations hub (operation.lango.ai). */}
+        <Script src={SUPPORT_WIDGET_SRC} strategy="lazyOnload" />
       </body>
     </html>
   )

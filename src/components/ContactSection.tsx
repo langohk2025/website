@@ -115,18 +115,18 @@ export default function ContactSection() {
                   <P3 className="text-xs text-[#ddd6ff] lg:text-base">{t('home.contact.info_desc')}</P3>
                 </div>
 
-                <div className="mt-6 flex flex-row flex-wrap gap-4 lg:mt-10 lg:flex-col lg:gap-5">
+                <div className="mt-6 flex flex-col gap-4 lg:mt-10 lg:gap-5">
                   {contactItems.map((item) => (
-                    <div key={item.label} className="flex min-w-0 flex-1 items-center gap-3 lg:gap-4">
+                    <div key={item.label} className="flex min-w-0 items-center gap-3 lg:gap-4">
                       <div className="flex size-10 shrink-0 items-center justify-center rounded-[11px] bg-white/15 lg:size-12 lg:rounded-[18px]">
                         <item.icon className="size-4 text-bg-100 lg:size-5" />
                       </div>
                       {item.href ? (
-                        <a href={item.href} className="truncate font-inter text-xs text-[#ddd6ff] hover:text-white lg:text-base">
+                        <a href={item.href} className="break-words font-inter text-sm text-[#ddd6ff] hover:text-white lg:text-base">
                           {item.label}
                         </a>
                       ) : (
-                        <span className="font-inter text-xs text-[#ddd6ff] lg:text-base">{item.label}</span>
+                        <span className="font-inter text-sm text-[#ddd6ff] lg:text-base">{item.label}</span>
                       )}
                     </div>
                   ))}
@@ -267,7 +267,8 @@ function FormField({
         onChange={(event) => onChange(event.target.value)}
         className={cn(
           'h-10 rounded-[11px] border border-[#e2e8f0] bg-font-100 px-3 lg:h-[59px] lg:rounded-[18px] lg:bg-bg-100 lg:px-4',
-          'font-inter text-sm text-font-600 outline-none lg:text-base',
+          // 16px on phones: iOS Safari zooms into fields with smaller text when tapped.
+          'font-inter text-base text-font-600 outline-none',
           'transition-[border-color,box-shadow] duration-200',
           'focus:border-brand-400 focus:ring-2 focus:ring-brand-300/30'
         )}

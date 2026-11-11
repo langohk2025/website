@@ -529,9 +529,13 @@ export default function EcosystemDiagram() {
     homeTagline: t('home.about.ecosystem.home_tagline'),
   }
 
+  // Labels have minimum font sizes, so below ~640px they overlap and spill off
+  // the canvas. Phones get the canvas at a readable width and swipe sideways.
   return (
-    <div role="img" aria-label={t('home.about.image_alt')}>
-      <EcosystemCanvas layout={ecosystemLayout} labels={labels} animateOnScroll />
+    <div className="overflow-x-auto pb-1.5 md:overflow-visible md:pb-0">
+      <div role="img" aria-label={t('home.about.image_alt')} className="w-[640px] md:w-full">
+        <EcosystemCanvas layout={ecosystemLayout} labels={labels} animateOnScroll />
+      </div>
     </div>
   )
 }
