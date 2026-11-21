@@ -12,7 +12,7 @@ export default function WhatIsLango() {
   const stats = [
     { value: '500K+', labelKey: 'home.about.stat_learners' },
     { value: '12', labelKey: 'home.about.stat_languages' },
-    { value: '50+', labelKey: 'home.about.stat_countries' },
+    { value: '5+', labelKey: 'home.about.stat_countries' },
     { value: '98%', labelKey: 'home.about.stat_satisfaction' },
   ]
 
