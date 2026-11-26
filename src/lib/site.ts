@@ -40,13 +40,21 @@ export const ORGANIZATION = {
 /** SPM English Speaking landing page (trailing slash). */
 export const SPM_EXAM_PATH = '/ljec-spm-english-speaking-AI-app/' as const
 
+/** International schools & IB / IGCSE / EAL curriculum alignment page (trailing slash). */
+export const INTERNATIONAL_SCHOOLS_PATH = '/international-schools/' as const
+
+/** Data privacy & child safeguarding trust page (trailing slash). */
+export const TRUST_PATH = '/trust/' as const
+
 /** Public routes included in the sitemap (trailing-slash paths). */
 export const PUBLIC_STATIC_PATHS = [
   '/',
   '/product/',
+  INTERNATIONAL_SCHOOLS_PATH,
   '/storyworld/',
   SPM_EXAM_PATH,
   '/news/',
+  TRUST_PATH,
   '/privacy-policy/',
   '/terms/',
 ] as const

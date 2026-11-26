@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, MapPin, Phone, Send } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight, Mail, MapPin, Phone, Send, ShieldCheck } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { PageContainer, Section } from '@/components/ui/section'
 import { PressableButton, Reveal } from '@/components/ui/motion'
 import { Label1, Label2, P3, SectionHeading } from '@/components/ui/typography'
+import { TRUST_PATH } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 type FormState = {
@@ -131,6 +133,22 @@ export default function ContactSection() {
                     </div>
                   ))}
                 </div>
+
+                <Link
+                  href={TRUST_PATH}
+                  className="mt-6 flex items-center gap-3 rounded-[16px] border border-white/20 bg-white/10 p-3.5 text-bg-100 transition-colors hover:bg-white/15 lg:mt-8 lg:p-4"
+                >
+                  <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-[#f5d0fe]" />
+                  <span className="min-w-0 flex-1 font-inter text-xs leading-snug text-[#f5ebff] lg:text-sm">
+                    <span className="block font-semibold text-white">
+                      {t('home.contact.trust_title')}
+                    </span>
+                    <span className="mt-0.5 block text-[#e9d5ff]">
+                      {t('home.contact.trust_desc')}
+                    </span>
+                  </span>
+                  <ArrowUpRight aria-hidden="true" className="size-4 shrink-0 text-white" />
+                </Link>
               </div>
 
               <form
@@ -233,7 +251,22 @@ export default function ContactSection() {
                   </Label2>
                 </PressableButton>
 
-                <P3 className="text-center text-[#90a1b9]">{t('home.contact.privacy_note')}</P3>
+                <P3 className="text-center text-sm text-[#7687a1]">
+                  {t('home.contact.privacy_note')}{' '}
+                  <Link
+                    href={TRUST_PATH}
+                    className="font-medium text-brand-500 underline underline-offset-4 hover:text-font-500"
+                  >
+                    {t('home.contact.trust_link')}
+                  </Link>
+                  {' · '}
+                  <Link
+                    href="/privacy-policy/"
+                    className="font-medium text-font-500 underline underline-offset-4 hover:text-brand-500"
+                  >
+                    {t('footer.privacy')}
+                  </Link>
+                </P3>
               </form>
             </div>
           </div>

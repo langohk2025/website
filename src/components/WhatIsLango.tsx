@@ -10,10 +10,9 @@ export default function WhatIsLango() {
   const { t } = useLanguage()
 
   const stats = [
-    { value: '500K+', labelKey: 'home.about.stat_learners' },
+    { value: '100K+', labelKey: 'home.about.stat_learners' },
     { value: '12', labelKey: 'home.about.stat_languages' },
     { value: '5+', labelKey: 'home.about.stat_countries' },
-    { value: '98%', labelKey: 'home.about.stat_satisfaction' },
   ]
 
   return (
@@ -29,7 +28,7 @@ export default function WhatIsLango() {
           >
             <div className="glass rounded-[20px] px-6 py-8 shadow-[0px_8px_32px_rgba(104,50,102,0.1)] lg:px-8 lg:py-12">
               <Stagger
-                className="grid grid-cols-2 items-center justify-items-center gap-6 sm:grid-cols-4 lg:flex lg:flex-wrap lg:justify-center lg:gap-[137px]"
+                className="grid grid-cols-1 items-center justify-items-center gap-6 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-[137px]"
                 stagger={0.07}
                 delayChildren={0.05}
               >

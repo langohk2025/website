@@ -59,7 +59,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   }, []);
 
   const t = useCallback((key: string): string => {
-    return translations[key] || key;
+    return translations[key] || translationMap.en[key] || key;
   }, [translations]);
 
   const value = useMemo(

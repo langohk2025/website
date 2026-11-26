@@ -15,6 +15,7 @@ import { GlassCard } from '@/components/ui/GlassCard'
 import { PressableButton, Reveal, Stagger, StaggerItem } from '@/components/ui/motion'
 import { PageContainer, Section } from '@/components/ui/section'
 import { Label3, Label6, P3, SectionHeading } from '@/components/ui/typography'
+import { INTERNATIONAL_SCHOOLS_PATH } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 const productKeys: {
@@ -31,6 +32,7 @@ const productKeys: {
     icon: GraduationCap,
     titleKey: 'home.product.exam.title',
     descKey: 'home.product.exam.desc',
+    href: INTERNATIONAL_SCHOOLS_PATH,
   },
   {
     icon: Briefcase,

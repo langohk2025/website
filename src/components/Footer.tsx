@@ -6,7 +6,7 @@ import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { PageContainer } from '@/components/ui/section'
 import { Label2, P3 } from '@/components/ui/typography'
-import { SPM_EXAM_PATH } from '@/lib/site'
+import { INTERNATIONAL_SCHOOLS_PATH, SPM_EXAM_PATH, TRUST_PATH } from '@/lib/site'
 
 const socialLinks = [
   { href: 'https://www.instagram.com/lango_learning/', label: 'Instagram', icon: Instagram },
@@ -18,9 +18,12 @@ const socialLinks = [
 const quickLinks = [
   { href: '/#about', labelKey: 'nav.about' },
   { href: '/product', labelKey: 'nav.product_short' },
+  { href: INTERNATIONAL_SCHOOLS_PATH, labelKey: 'nav.international_schools' },
   { href: SPM_EXAM_PATH, labelKey: 'nav.spm_exam' },
   { href: '/storyworld', labelKey: 'nav.storyworld' },
   { href: '/news', labelKey: 'nav.news' },
+  { href: TRUST_PATH, labelKey: 'nav.trust' },
+  { href: '/privacy-policy/', labelKey: 'footer.privacy' },
   { href: '/#contact', labelKey: 'nav.contact_us' },
 ]
 

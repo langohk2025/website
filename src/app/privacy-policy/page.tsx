@@ -1,150 +1,232 @@
+import Link from 'next/link'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import { buildPageMetadata } from '@/lib/seo'
+import { TRUST_PATH } from '@/lib/site'
 
 export const metadata = buildPageMetadata({
   title: 'Privacy Policy | Lango.ai',
   description:
-    'Privacy Policy for Lango.ai - Learn how we collect, use, and protect your personal information.',
+    'Privacy Policy for Lango Innovation Limited (Lango.ai) — how we collect, use, store, and safeguard personal and student voice data under PDPO and GDPR principles.',
   path: '/privacy-policy/',
 })
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div className="prose prose-lg max-w-none">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Privacy Policy</h1>
-          
-          <p className="text-gray-600 mb-8">
-            <strong>Effective Date:</strong> {new Date().toLocaleDateString()}
-          </p>
+    <>
+      <Header />
+      <main className="min-h-screen bg-white">
+        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="prose prose-lg max-w-none">
+            <h1 className="mb-4 text-4xl font-bold text-gray-900">Privacy Policy</h1>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Welcome to Lango.ai (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;). We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our language learning services.
+            <p className="mb-6 text-gray-600">
+              <strong>Last Updated:</strong> November 2026 &nbsp;|&nbsp;{' '}
+              <strong>Data Controller / Operator:</strong> Lango Innovation Limited (Hong Kong)
             </p>
-          </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Information We Collect</h2>
-            
-            <h3 className="text-xl font-medium text-gray-900 mb-3">2.1 Personal Information</h3>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              We may collect personal information that you voluntarily provide to us, including:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 mb-4">
-              <li>Name and contact information (email address, phone number)</li>
-              <li>Account credentials (username, password)</li>
-              <li>Profile information and preferences</li>
-              <li>Learning progress and performance data</li>
-              <li>Payment information (processed securely through third-party providers)</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-gray-900 mb-3">2.2 Automatically Collected Information</h3>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              When you use our services, we automatically collect certain information:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 mb-4">
-              <li>Device information (IP address, browser type, operating system)</li>
-              <li>Usage data (pages visited, time spent, features used)</li>
-              <li>Cookies and similar tracking technologies</li>
-              <li>Location data (if you grant permission)</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. How We Use Your Information</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              We use the collected information for the following purposes:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700">
-              <li>Provide and maintain our language learning services</li>
-              <li>Personalize your learning experience</li>
-              <li>Process payments and manage subscriptions</li>
-              <li>Communicate with you about our services</li>
-              <li>Improve our platform and develop new features</li>
-              <li>Ensure security and prevent fraud</li>
-              <li>Comply with legal obligations</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">4. Information Sharing and Disclosure</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700">
-              <li>With service providers who assist us in operating our platform</li>
-              <li>When required by law or to protect our rights</li>
-              <li>In connection with a business transfer or merger</li>
-              <li>With your explicit consent</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">5. Data Security</h2>
-            <p className="text-gray-700 leading-relaxed">
-              We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Your Rights and Choices</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Depending on your location, you may have the following rights:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700">
-              <li>Access to your personal information</li>
-              <li>Correction of inaccurate data</li>
-              <li>Deletion of your personal information</li>
-              <li>Restriction of processing</li>
-              <li>Data portability</li>
-              <li>Objection to processing</li>
-              <li>Withdrawal of consent</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Cookies and Tracking Technologies</h2>
-            <p className="text-gray-700 leading-relaxed">
-              We use cookies and similar technologies to enhance your experience, analyze usage patterns, and provide personalized content. You can control cookie settings through your browser preferences, though this may affect some functionality of our services.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Children&apos;s Privacy</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. International Data Transfers</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place to protect your information in accordance with applicable data protection laws.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Changes to This Privacy Policy</h2>
-            <p className="text-gray-700 leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the effective date. Your continued use of our services after such changes constitutes acceptance of the updated policy.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Contact Us</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              If you have any questions about this Privacy Policy or our privacy practices, please contact us:
-            </p>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-gray-700">
-                <strong>Email:</strong> privacy@lango.ai
-              </p>
+            <div className="mb-8 rounded-xl border border-purple-200 bg-purple-50/70 p-4 text-sm text-gray-800">
+              <strong>School IT &amp; Safeguarding Leads:</strong> For a plain-language overview of
+              child safeguarding, voice data handling, PDPO/GDPR alignment, and Data Processing
+              Agreements (DPAs), visit our{' '}
+              <Link
+                href={TRUST_PATH}
+                className="font-semibold text-[#c92c97] underline underline-offset-4"
+              >
+                Data Privacy &amp; Child Safeguarding page
+              </Link>
+              .
             </div>
-          </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">1. Introduction</h2>
+              <p className="leading-relaxed text-gray-700">
+                Welcome to Lango.ai, operated by Lango Innovation Limited (&ldquo;we,&rdquo;
+                &ldquo;our,&rdquo; or &ldquo;us&rdquo;). We are committed to protecting personal
+                data and safeguarding learners who use our language learning applications and
+                classroom tools. This Privacy Policy explains how we collect, use, store, and
+                protect information when you visit our website or use Lango services, in accordance
+                with the Hong Kong Personal Data (Privacy) Ordinance (Cap. 486, PDPO) and aligned
+                with the EU/UK General Data Protection Regulation (GDPR) where applicable.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                2. Information We Collect
+              </h2>
+
+              <h3 className="mb-3 text-xl font-medium text-gray-900">
+                2.1 Account &amp; Learning Information
+              </h3>
+              <p className="mb-4 leading-relaxed text-gray-700">
+                Depending on whether Lango is used through a school deployment or a family/individual
+                account, we may collect:
+              </p>
+              <ul className="mb-4 list-disc pl-6 text-gray-700">
+                <li>
+                  Contact and school inquiry details (name, work email, role, school/organization,
+                  optional phone number)
+                </li>
+                <li>Account credentials and school-assigned learner identifiers or class groupings</li>
+                <li>Learning activity, completed missions, and speaking assessment scores</li>
+                <li>Payment information (processed securely through third-party payment providers)</li>
+              </ul>
+
+              <h3 className="mb-3 text-xl font-medium text-gray-900">
+                2.2 Voice &amp; Audio Recordings
+              </h3>
+              <p className="mb-4 leading-relaxed text-gray-700">
+                Because Lango provides AI-assisted speaking and pronunciation practice, learners
+                record spoken responses within assigned exercises. Voice data is processed strictly
+                to generate pronunciation, fluency, and oral-assessment feedback and to display
+                learning progress to authorized teachers, school administrators, or parents. We do
+                not sell voice recordings and we do not use student voice data for third-party
+                advertising or behavioral profiling.
+              </p>
+
+              <h3 className="mb-3 text-xl font-medium text-gray-900">
+                2.3 Automatically Collected Technical Information
+              </h3>
+              <ul className="mb-4 list-disc pl-6 text-gray-700">
+                <li>Device type, operating system, browser type, and crash/diagnostic logs</li>
+                <li>Session activity needed to deliver and maintain service reliability</li>
+                <li>Essential cookies and preference settings (such as interface language)</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                3. How We Use Information
+              </h2>
+              <ul className="list-disc pl-6 text-gray-700">
+                <li>Deliver speaking practice, instant pronunciation feedback, and classroom tools</li>
+                <li>Provide teachers and parents with authorized progress dashboards</li>
+                <li>Manage school pilots, licensing, and customer support requests</li>
+                <li>Maintain platform security, integrity, and fraud prevention</li>
+                <li>Comply with applicable legal and safeguarding obligations</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                4. Information Sharing &amp; Sub-processors
+              </h2>
+              <p className="mb-4 leading-relaxed text-gray-700">
+                We never sell, rent, or trade student or user personal data. We share data only:
+              </p>
+              <ul className="list-disc pl-6 text-gray-700">
+                <li>
+                  With contracted infrastructure and speech-processing service providers bound by
+                  confidentiality and data-protection obligations
+                </li>
+                <li>
+                  With the learner&apos;s school, teachers, or parents/guardians in accordance with
+                  the school&apos;s deployment settings
+                </li>
+                <li>When required by applicable law or to protect learner safety and legal rights</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                5. Data Security &amp; Retention
+              </h2>
+              <p className="leading-relaxed text-gray-700">
+                We protect personal and voice data using industry-standard technical and
+                organizational safeguards, including encryption in transit (TLS) and at rest,
+                role-based access controls, and least-privilege administrative access. Data is
+                retained only for as long as needed to deliver the educational service or as
+                instructed by the contracting school, after which it is deleted or anonymized upon
+                request or contract termination.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                6. Your Rights (PDPO &amp; GDPR)
+              </h2>
+              <p className="mb-4 leading-relaxed text-gray-700">
+                Subject to applicable law (including Hong Kong PDPO and GDPR), individuals, parents,
+                and schools acting as data controllers may request:
+              </p>
+              <ul className="list-disc pl-6 text-gray-700">
+                <li>Access to personal data held about them or their child</li>
+                <li>Correction of inaccurate or incomplete personal data</li>
+                <li>Deletion / erasure of accounts and associated learning or voice records</li>
+                <li>Restriction of or objection to processing, and withdrawal of consent</li>
+                <li>Data export / portability where applicable</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                7. Children&apos;s Privacy &amp; School Deployments
+              </h2>
+              <p className="leading-relaxed text-gray-700">
+                Lango is designed for K–12, early-years, and language learners, including children
+                under 13 or 16 years of age, when used under the supervision and authorization of a
+                school or parent/legal guardian. In school deployments, the school acts as the
+                controller for student records and obtains any required parental consents under local
+                law; Lango processes student data strictly on the school&apos;s documented
+                instructions. Student accounts contain no third-party advertising and cannot be used
+                to contact strangers. Parents or schools may review or request deletion of a
+                child&apos;s data at any time by contacting{' '}
+                <a href="mailto:privacy@lango.ai" className="text-[#c92c97] underline">
+                  privacy@lango.ai
+                </a>
+                .
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                8. International Data Transfers
+              </h2>
+              <p className="leading-relaxed text-gray-700">
+                Where personal data is processed across borders to deliver speech-scoring or cloud
+                hosting services, we apply contractual and technical safeguards aligned with PDPO and
+                GDPR standards. Schools may request our current sub-processor and data-flow summary
+                prior to onboarding.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                9. Changes to This Privacy Policy
+              </h2>
+              <p className="leading-relaxed text-gray-700">
+                We may update this Privacy Policy periodically. Material changes will be posted on
+                this page with an updated revision date, and active school partners will be notified
+                in advance where required by our agreement.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">10. Contact Us</h2>
+              <p className="mb-4 leading-relaxed text-gray-700">
+                For privacy inquiries, data access or deletion requests, or to request a School Data
+                Processing Agreement (DPA), please contact our Data Privacy team:
+              </p>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-gray-700">
+                  <strong>Entity:</strong> Lango Innovation Limited
+                </p>
+                <p className="text-gray-700">
+                  <strong>Address:</strong> 4/F, KOHO, 73-75 Hung To Road, Kwun Tong, Hong Kong
+                </p>
+                <p className="text-gray-700">
+                  <strong>Email:</strong>{' '}
+                  <a href="mailto:privacy@lango.ai" className="text-[#c92c97] underline">
+                    privacy@lango.ai
+                  </a>
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    </div>
+      </main>
+      <Footer />
+    </>
   )
 }

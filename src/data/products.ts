@@ -1,3 +1,5 @@
+import { INTERNATIONAL_SCHOOLS_PATH } from '@/lib/site'
+
 export type ProductFeature = {
   slug: string
   title: string
@@ -60,13 +62,13 @@ export const productFeatures: ProductFeature[] = [
     slug: 'exam-preparation',
     title: 'Exam Preparation',
     description:
-      'Support for DSE, SPM, IELTS, TOEIC and other assessments — build speaking confidence with AI role-play and instant feedback.',
+      'Support for IB Language A/B, Cambridge IGCSE, EAL/ESL, IELTS, DSE, SPM, TOEIC and other assessments — build speaking confidence with AI role-play and instant feedback.',
     imageSrc: '/figma/product/exam-prep.png',
     imageAlt: 'Exam preparation app showing progress charts',
     imageWidth: 571,
     imageHeight: 319,
     imageOnLeft: true,
-    href: '/exam',
+    href: INTERNATIONAL_SCHOOLS_PATH,
     imageClassName: 'rounded-[32px]',
   },
   {
